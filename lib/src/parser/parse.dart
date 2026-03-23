@@ -430,23 +430,33 @@ class Parser {
                 textWrapping = TextWrapping.Clip;
               }
 
-              var vertical = node.getAttribute('vertical');
-              if (vertical != null) {
-                if (vertical.toString() == 'top') {
-                  verticalAlign = VerticalAlign.Top;
-                } else if (vertical.toString() == 'center') {
-                  verticalAlign = VerticalAlign.Center;
+              /// START 01: SỬA ĐOẠN CODE NÀY ĐỂ LẤY ĐÚNG GIÁ TRỊ ALIGNMENT
+              /// Thư viện gốc bị sai
+              // Tìm thẻ <alignment> trong các thẻ con của node
+              var alignmentNode = node.findElements('alignment').firstOrNull;
+              if (alignmentNode != null) {
+                // Lấy giá trị của thuộc tính vertical từ thẻ alignment
+                var vertical = alignmentNode.getAttribute('vertical');
+                if (vertical != null) {
+                  if (vertical.toString() == 'top') {
+                    verticalAlign = VerticalAlign.Top;
+                  } else if (vertical.toString() == 'center') {
+                    verticalAlign = VerticalAlign.Center;
+                  }
+                }
+
+                // Lấy giá trị của thuộc tính horizontal từ thẻ alignment
+                var horizontal = alignmentNode.getAttribute('horizontal');
+                if (horizontal != null) {
+                  if (horizontal.toString() == 'center') {
+                    horizontalAlign = HorizontalAlign.Center;
+                  } else if (horizontal.toString() == 'right') {
+                    horizontalAlign = HorizontalAlign.Right;
+                  }
                 }
               }
 
-              var horizontal = node.getAttribute('horizontal');
-              if (horizontal != null) {
-                if (horizontal.toString() == 'center') {
-                  horizontalAlign = HorizontalAlign.Center;
-                } else if (horizontal.toString() == 'right') {
-                  horizontalAlign = HorizontalAlign.Right;
-                }
-              }
+              /// END01: SỬA ĐOẠN CODE NÀY ĐỂ LẤY ĐÚNG GIÁ TRỊ ALIGNMENT
 
               var rotationString = node.getAttribute('textRotation');
               if (rotationString != null) {
